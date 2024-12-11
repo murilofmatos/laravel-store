@@ -18,16 +18,24 @@ class AdminController extends Controller
         return view('admin.products-edit', compact('product'));
     }
 
-    public function update(Request $request)
+    public function update(Product $product, Request $request)
     {
-        $product = Product::find($request->slug);
-        $product->name = $request->name;
-        $product->slug = $request->slug;
-        $product->cover = $request->cover;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'stock' => 'integer|nullable',
+            'cover' => 'image|nullable',
+            'description' => 'string|nullable',
+        ]);
+
+        if($request->hasFile('cover') && $request->file('cover')->isValid()){
+            $validated['cover'] = $request->file('cover')->store('products', 'public');
+            $product->cover = $validated['cover'];
+        }
+
+        $product->fill($validated);
         $product->save();
+        return redirect()->route('admin.products');
     }
 
     public function create()
@@ -46,7 +54,7 @@ class AdminController extends Controller
         $validated['slug'] = str($validated['name'])->slug() . '-' . fake()->numberBetween(1, 10);
 
         if($request->hasFile('cover') && $request->file('cover')->isValid()){
-            $validated['cover'] = $request->file('cover')->store('products', 'public');
+            $validated['cover'] = $request->file('cover')->store('products', 'public');;
         }
         if($request->stock == null){
             $validated['stock'] = 0;
