@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -12,9 +13,9 @@ class AdminController extends Controller
         $products = Product::all();
         return view('admin.products', compact('products'));
     }
-    public function edit()
+    public function edit(Product $product)
     {
-        return view('admin.products-edit');
+        return view('admin.products-edit', compact('product'));
     }
 
     public function update(Request $request)
@@ -38,11 +39,19 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'stock' => 'nullable',
-            'cover' => 'file|nullable',
+            'stock' => 'integer|nullable',
+            'cover' => 'image|nullable',
             'description' => 'string|nullable',
         ]);
         $validated['slug'] = str($validated['name'])->slug() . '-' . fake()->numberBetween(1, 10);
+
+        if($request->hasFile('cover') && $request->file('cover')->isValid()){
+            $validated['cover'] = $request->file('cover')->store('products', 'public');
+        }
+        if($request->stock == null){
+            $validated['stock'] = 0;
+        }
+
         Product::create($validated);
         return redirect()->route('admin.products');
     }

@@ -7,7 +7,7 @@
             <div class="flex items-center justify-between mb-2">
                 <h1 class="text-2xl font-medium title-font mb-2 text-gray-900">Adicionar produto</h1>
             </div>
-            <form method="POST" action="{{ route('admin.products.store') }}">
+            <form enctype="multipart/form-data" method="POST" action="{{ route('admin.products.store') }}">
                 @csrf
                 <div class="flex flex-wrap">
                     <div class="p-2 w-1/2">
