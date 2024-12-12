@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,15 +19,9 @@ class AdminController extends Controller
         return view('admin.products-edit', compact('product'));
     }
 
-    public function update(Product $product, Request $request)
+    public function update(Product $product, ProductStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'stock' => 'integer|nullable',
-            'cover' => 'image|nullable',
-            'description' => 'string|nullable',
-        ]);
+        $validated = $request->validated();
 
         if($request->hasFile('cover') && $request->file('cover')->isValid()){
             $validated['cover'] = $request->file('cover')->store('products', 'public');
@@ -43,14 +38,8 @@ class AdminController extends Controller
         return view('admin.products-create');
     }
 
-    public function store(Request $request){
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'stock' => 'integer|nullable',
-            'cover' => 'image|nullable',
-            'description' => 'string|nullable',
-        ]);
+    public function store(ProductStoreRequest $request){
+        $validated = $request->validated();
         $validated['slug'] = str($validated['name'])->slug() . '-' . fake()->numberBetween(1, 10);
 
         if($request->hasFile('cover') && $request->file('cover')->isValid()){
