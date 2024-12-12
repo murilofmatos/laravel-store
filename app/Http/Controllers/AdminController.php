@@ -64,4 +64,10 @@ class AdminController extends Controller
         return redirect()->route('admin.products');
     }
 
+    public function destroy(Product $product){
+        $product->cover ? Storage::disk('public')->delete($product->cover) : null;
+        $product->delete();
+        return redirect()->route('admin.products');
+    }
+
 }

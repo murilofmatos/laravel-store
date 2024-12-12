@@ -20,9 +20,12 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y">
+                @php
+                    $i = 1;
+                @endphp
                     @foreach ($products as $product)
                     <tr @if($loop->even)class="bg-gray-100"@endif>
-                        <td class="px-4 py-3">{{ $product->id }}</td>
+                        <td class="px-4 py-3">{{ $i++ }}</td>
                         <td class="px-4 py-3">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ \Illuminate\Support\Facades\Storage::url($product->cover) }}">
                         </td>
@@ -31,7 +34,7 @@
                         <td class="px-4 py-3">{{ $product->stock }}</td>
                         <td class="px-4 py-3 text-sm text-right space-x-3 text-gray-900">
                             <a href="{{ route('admin.products.edit', $product->slug) }}" class="mt-3 text-indigo-500 inline-flex items-center">Editar</a>
-                            <a class="mt-3 text-indigo-500 inline-flex items-center">Deletar</a>
+                            <a href="{{ route('admin.products.destroy', $product->id) }}" class="mt-3 text-indigo-500 inline-flex items-center">Deletar</a>
                         </td>
                     </tr>
                     @endforeach
