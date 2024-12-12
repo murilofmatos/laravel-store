@@ -17,7 +17,7 @@
                             <input value="{{ $product->name }}" type="text" id="name" name="name" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                         @error('name')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -27,7 +27,7 @@
                             <input value="{{ $product->price }}" type="text" id="price" name="price" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                         </div>
                         @error('price')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -37,7 +37,7 @@
                             <input value="{{ $product->stock }}" type="text" id="stock" name="stock" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         </div>
                         @error('stock')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -47,9 +47,17 @@
                             <input type="file" id="cover" name="cover" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                         </div>
                         @error('cover')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
                         @enderror
                     </div>
+                    @if($product->cover)
+
+
+                    <div class="p-2 w-full">
+                        <img src="{{  Illuminate\Support\Facades\Storage::url($product->cover) }}" alt="" class="w-1/4">
+                        <a href="{{ route('admin.products.destroyImage', $product->id) }}">Remover imagem</a>
+                    </div>
+                    @endif
 
                     <div class="p-2 w-full">
                         <div class="relative">
@@ -57,7 +65,7 @@
                             <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">{{ $product->description }}</textarea>
                         </div>
                         @error('description')
-                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 

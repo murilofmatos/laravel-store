@@ -16,4 +16,6 @@ Route::get('/admin/products/create', [AdminController::class, 'create'])->name('
 
 Route::put('/admin/products/{product}', [AdminController::class, 'update'])->name('admin.products.update');
 Route::get('/admin/products/{product}/delete', [AdminController::class, 'destroy'])->name('admin.products.destroy');
+Route::get('/admin/products/{product}/deleteImage', [AdminController::class, 'destroyImage'])->name('admin.products.destroyImage');
+
 
