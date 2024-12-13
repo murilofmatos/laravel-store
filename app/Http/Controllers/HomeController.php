@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $products = Product::whereAny([
+            'name', 'description', 'price'], 'like', '%' . $request->search . '%')->get();
         return view('home', compact('products'));
     }
 }

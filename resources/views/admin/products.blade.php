@@ -20,12 +20,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y">
-                @php
-                    $i = 1;
-                @endphp
                     @foreach ($products as $product)
                     <tr @if($loop->even)class="bg-gray-100"@endif>
-                        <td class="px-4 py-3">{{ $i++ }}</td>
+                        <td class="px-4 py-3">{{ $product->id }}</td>
                         <td class="px-4 py-3">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ $product->cover ? \Illuminate\Support\Facades\Storage::url($product->cover) : '/assets/default.webp' }}">
                         </td>
